@@ -34,7 +34,7 @@ services:
 
   sdp-db:
     image: postgres:latest
-    container_name: focalboard-postgres
+    container_name: sdp-postgres
     restart: always
     volumes:
       - "./data:/var/lib/postgresql/data"

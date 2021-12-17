@@ -23,7 +23,7 @@ services:
 
   proxy:
     image: jwilder/nginx-proxy:latest
-    container_name: focalboard-proxy
+    container_name: sdp-proxy
     restart: always
     ports:
       - 80:80
@@ -32,7 +32,7 @@ services:
     networks:
       - proxy
 
-  focalboard-db:
+  sdp-db:
     image: postgres:latest
     container_name: focalboard-postgres
     restart: always

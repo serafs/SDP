@@ -15,21 +15,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authservice
+  name: coreservice
 spec:
   selector:
     matchLabels:
-      app: authservice
+      app: coreservice
   template:
     metadata:
       labels:
-        app: authservice
+        app: coreservice
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: authservice
+          image: coreservice
           ports:
             - containerPort: 8000
           env:
@@ -62,11 +62,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: adservice
+  name: coreservice
 spec:
   type: ClusterIP
   selector:
-    app: adservice
+    app: coreservice
   ports:
     - name: grpc
       port: 9555

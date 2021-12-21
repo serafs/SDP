@@ -14,7 +14,7 @@ func setupRoutes() {
 }
 
 func main() {
-	fmt.Println("Golang app started on port 8000")
+	fmt.Println("Golang app started on port 9000")
 	setupRoutes()
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":9000", nil)
 }

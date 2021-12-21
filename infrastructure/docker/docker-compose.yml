@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  app:
+    image: serafs/sdp-backend:1.0
+    container_name: sdp-backend
+    restart: always
+    ports:
+      - 9000:9000
+    networks:
+      - shared
+
+  web-app:
+    image: serafs/sdp-webapp:1.0
+    container_name: sdp-webapp
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - shared
+
+networks:
+  shared:

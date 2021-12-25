@@ -15,7 +15,6 @@ type msg struct {
 func main() {
 
 	wsServer := ws.NewServer()
-	wsServer.RegisterRoutes()
 	http.HandleFunc("/", rootHandler)
 
 	panic(http.ListenAndServe(":9000", nil))

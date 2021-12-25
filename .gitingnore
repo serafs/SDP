@@ -7,8 +7,8 @@ logs
 npm-debug.log*
 
 ### Golang ###
-server/pkg/
-server/bin/
+/server/pkg/
+/server/bin/
 
 # Runtime data
 pids

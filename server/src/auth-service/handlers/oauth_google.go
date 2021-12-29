@@ -5,20 +5,20 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
 // Scopes: OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.
 var googleOauthConfig = &oauth2.Config{
 	RedirectURL:  "http://localhost:8000/auth/google/callback",
-	ClientID:     os.Getenv("GOOGLE_OAUTH_CLIENT_ID"),
-	ClientSecret: os.Getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
+	ClientID:     viperEnvVariable("GOOGLE_OAUTH_CLIENT_ID"),
+	ClientSecret: viperEnvVariable("GOOGLE_OAUTH_CLIENT_SECRET"),
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 	Endpoint:     google.Endpoint,
 }
@@ -58,7 +58,7 @@ func oauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	// GetOrCreate User in your db.
 	// Redirect or response with a token.
 	// More code .....
-	fmt.Fprintf(w, "UserInfo: %s\n", data)
+	fmt.Println(w, "UserInfo: %s\n", string(data))
 }
 
 func generateStateOauthCookie(w http.ResponseWriter) string {
@@ -90,4 +90,21 @@ func getUserDataFromGoogle(code string) ([]byte, error) {
 		return nil, fmt.Errorf("failed read response: %s", err.Error())
 	}
 	return contents, nil
+}
+
+func viperEnvVariable(key string) string {
+	viper.SetConfigFile("env.json")
+	err := viper.ReadInConfig()
+
+	if err != nil {
+		fmt.Errorf("Error reading config file %s", err)
+	}
+
+	value, ok := viper.Get(key).(string)
+
+	if !ok {
+		fmt.Errorf("Invalid type assertion")
+	}
+
+	return value
 }

@@ -33,6 +33,7 @@ func NewServer() *Server {
 
 func (ws *Server) RegisterRoutes(r *mux.Router) {
 	r.HandleFunc("/ws", ws.handleWebSocket)
+	r.Handle("/", http.FileServer(http.Dir("templates/")))
 }
 
 func (ws *Server) handleWebSocket(w http.ResponseWriter, r *http.Request) {

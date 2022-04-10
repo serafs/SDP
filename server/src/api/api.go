@@ -11,6 +11,10 @@ type API struct {
 	logger *log.Logger
 }
 
+func NewAPI() *API {
+	return &API{}
+}
+
 func (a *API) RegisterRoutes(r *mux.Router) {
 	api := r.PathPrefix("/api").Subrouter()
 	api.Use()

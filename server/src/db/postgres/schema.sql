@@ -1,3 +1,5 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 CREATE TABLE IF NOT EXISTS USERS(
     id VARCHAR(100),
     username VARCHAR(100),

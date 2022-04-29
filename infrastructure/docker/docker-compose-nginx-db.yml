@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 
 services:
   app:
@@ -7,7 +7,7 @@ services:
       dockerfile: docker/Dockerfile
     container_name: sdp-backend
     depends_on:
-      - sdp-db
+      - postgres
     expose:
       - 8000
     environment:
@@ -32,16 +32,42 @@ services:
     networks:
       - proxy
 
-  sdp-db:
-    image: postgres:latest
-    container_name: sdp-postgres
-    restart: always
-    volumes:
-      - "./data:/var/lib/postgresql/data"
+  postgres:
+    container_name: postgres
+    image: postgres
     environment:
-      POSTGRES_DB: boards
-      POSTGRES_USER: boardsuser
-      POSTGRES_PASSWORD: boardsuser-password
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - postgres
+    restart: unless-stopped
 
 networks:
   proxy:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

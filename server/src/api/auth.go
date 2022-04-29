@@ -23,14 +23,14 @@ type LoginResponse struct {
 
 func (a *API) handleRegister(w http.ResponseWriter, r *http.Request) {
 
-	r, err := ioutil.ReadAll(r.Body)
+	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		a.errorResponse(w, r.URL.Path, http.StatusInternalServerError, "", err)
 		return
 	}
 
 	var login LoginRequest
-	err = json.Unmarshal(r.Body, &login)
+	err = json.Unmarshal(data, &login)
 
 	if err != nil {
 

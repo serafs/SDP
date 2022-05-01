@@ -1,10 +1,8 @@
 package api
 
 import (
-	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
-	"net/http"
 )
 
 type API struct {
@@ -23,18 +21,24 @@ func (a *API) RegisterRoutes(r *mux.Router) {
 	api.HandleFunc("/login", a.handleLogin).Methods("POST")
 }
 
-func (a *API) errorResponse(w http.ResponseWriter, api string, code int, message string, sourceError error) {
-	a.logger.Error("API ERROR",
-		a.logger.Int("code", code),
-		a.logger.Err(sourceError),
-		a.logger.String("msg", message),
-		a.mlog.String("api", api),
-	)
-	w.Header().Set("Content-Type", "application/json")
-	data, err := json.Marshal(model.ErrorResponse{Error: message, ErrorCode: code})
-	if err != nil {
-		data = []byte("{}")
-	}
-	w.WriteHeader(code)
-	_, _ = w.Write(data)
-}
+//func error(w http.ResponseWriter, api string, code int, message string, errorTxt string) {
+//	error = model.NewError(code, errorTxt, message, api)
+//	w.Header().Set("Content-Type", "application/json")
+//	data, err := json.Marshal()
+//}
+//
+//func (a *API) errorResponse(w http.ResponseWriter, api string, code int, message string, sourceError error) {
+//	a.logger.Error("API ERROR",
+//		a.logger.Int("code", code),
+//		a.logger.Err(sourceError),
+//		a.logger.String("msg", message),
+//		a.mlog.String("api", api),
+//	)
+//	w.Header().Set("Content-Type", "application/json")
+//	data, err := json.Marshal(model.ErrorResponse{Error: message, ErrorCode: code})
+//	if err != nil {
+//		data = []byte("{}")
+//	}
+//	w.WriteHeader(code)
+//	_, _ = w.Write(data)
+//}

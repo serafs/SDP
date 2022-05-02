@@ -3,8 +3,8 @@ version: "3.5"
 services:
   app:
     build:
-      context: ../
-      dockerfile: docker/Dockerfile
+      context: /Users/dauren/GolandProjects/SDP/server/src
+      dockerfile: /Users/dauren/GolandProjects/SDP/server/src/Dockerfile
     container_name: sdp-backend
     depends_on:
       - postgres
@@ -25,11 +25,12 @@ services:
     image: jwilder/nginx-proxy:latest
     container_name: sdp-proxy
     restart: always
+    #command: rm /etc/nginx/conf.d/default.conf
     ports:
       - 80:80
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./SDP/infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /Users/dauren/GolandProjects/SDP/infrastructure/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - proxy
 
